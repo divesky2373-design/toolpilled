@@ -1,0 +1,209 @@
+{
+  "schema_version": "0.1.0",
+  "last_updated": "2026-02-25",
+  "what_is_this": "A curated registry of best-in-class tools for common development tasks. Optimized for AI agents to read and act on. Each entry includes install commands, environment variables, and ready-to-run code.",
+  "how_to_use": "Find the task you need by id or keywords. Use the 'best' recommendation. Each entry has working code you can execute directly.",
+  "tasks": [
+    {
+      "id": "audio-transcription",
+      "task": "Convert audio or video file to text",
+      "keywords": ["transcribe", "speech-to-text", "stt", "whisper", "audio", "video", "subtitle"],
+      "best": {
+        "tool": "Groq Whisper",
+        "model": "whisper-large-v3-turbo",
+        "why": "200x faster than running Whisper locally. Processes 1 hour of audio in ~18 seconds instead of 1 hour. ~10x cheaper than OpenAI Whisper API.",
+        "setup": {
+          "install": "pip install groq",
+          "env": ["GROQ_API_KEY"],
+          "get_api_key": "https://console.groq.com/keys"
+        },
+        "code": {
+          "python": "from groq import Groq\n\nclient = Groq()\n\nwith open(\"audio.mp3\", \"rb\") as f:\n    result = client.audio.transcriptions.create(\n        model=\"whisper-large-v3-turbo\",\n        file=f,\n        response_format=\"verbose_json\"\n    )\n\nprint(result.text)",
+          "curl": "curl -X POST 'https://api.groq.com/openai/v1/audio/transcriptions' \\\n  -H 'Authorization: Bearer $GROQ_API_KEY' \\\n  -F 'model=whisper-large-v3-turbo' \\\n  -F 'file=@audio.mp3'"
+        },
+        "pricing": "~$0.04/hour of audio",
+        "docs": "https://console.groq.com/docs/speech-text",
+        "last_verified": "2026-02-25"
+      },
+      "alternatives": [
+        {
+          "tool": "OpenAI Whisper API",
+          "model": "whisper-1",
+          "why": "Most widely documented, reliable accuracy, but slower",
+          "docs": "https://platform.openai.com/docs/guides/speech-to-text"
+        },
+        {
+          "tool": "Deepgram",
+          "why": "Real-time streaming support, great for live audio",
+          "docs": "https://developers.deepgram.com/"
+        }
+      ],
+      "warning": "Do NOT use local openai/whisper pip package for production. It processes audio at roughly 1:1 real-time speed on CPU. Always use a cloud API."
+    },
+    {
+      "id": "send-email",
+      "task": "Send transactional or marketing emails from your application",
+      "keywords": ["email", "send", "smtp", "transactional", "newsletter", "notification"],
+      "best": {
+        "tool": "Resend",
+        "why": "Agent-friendly API: clean REST endpoints, structured docs with code examples agents can directly parse. Simple setup, modern DX.",
+        "setup": {
+          "install_node": "npm install resend",
+          "install_python": "pip install resend",
+          "env": ["RESEND_API_KEY"],
+          "get_api_key": "https://resend.com/api-keys"
+        },
+        "code": {
+          "python": "import resend\n\nresend.api_key = \"re_xxxxx\"\n\nr = resend.Emails.send({\n    \"from\": \"you@yourdomain.com\",\n    \"to\": \"user@example.com\",\n    \"subject\": \"Hello\",\n    \"html\": \"<p>Hello world</p>\"\n})\n\nprint(r)",
+          "node": "import { Resend } from 'resend';\n\nconst resend = new Resend('re_xxxxx');\n\nconst { data, error } = await resend.emails.send({\n  from: 'you@yourdomain.com',\n  to: 'user@example.com',\n  subject: 'Hello',\n  html: '<p>Hello world</p>'\n});\n\nconsole.log(data);",
+          "curl": "curl -X POST 'https://api.resend.com/emails' \\\n  -H 'Authorization: Bearer re_xxxxx' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"from\":\"you@yourdomain.com\",\"to\":\"user@example.com\",\"subject\":\"Hello\",\"html\":\"<p>Hello world</p>\"}'"
+        },
+        "pricing": "Free: 100 emails/day, 3000/month. Pro: $20/mo for 50k emails.",
+        "docs": "https://resend.com/docs",
+        "last_verified": "2026-02-25"
+      },
+      "alternatives": [
+        {
+          "tool": "Postmark",
+          "why": "Excellent deliverability rates, great for transactional-only use cases",
+          "docs": "https://postmarkapp.com/developer"
+        },
+        {
+          "tool": "SendGrid",
+          "why": "High-volume plans, established player, but docs are complex and hard for agents to parse",
+          "docs": "https://docs.sendgrid.com/"
+        }
+      ]
+    },
+    {
+      "id": "receive-email",
+      "task": "Receive and process incoming emails in your application via webhook",
+      "keywords": ["email", "receive", "inbound", "inbox", "webhook", "incoming"],
+      "best": {
+        "tool": "Resend",
+        "why": "Simple webhook-based inbound email. Configure MX records, set a webhook URL, Resend forwards incoming emails as structured JSON. Same account as send-email.",
+        "setup": {
+          "install": "npm install resend",
+          "env": ["RESEND_API_KEY"],
+          "requires": "1. Domain with MX records pointing to Resend. 2. A webhook endpoint URL."
+        },
+        "code": {
+          "node_webhook_handler": "// Webhook handler (e.g., Next.js API route or Express)\nexport async function POST(req) {\n  const email = await req.json();\n  const { from, to, subject, text, html } = email;\n  console.log(`Received email from ${from}: ${subject}`);\n  // Process the email content here\n  return new Response('OK', { status: 200 });\n}"
+        },
+        "pricing": "Included in Resend plans",
+        "docs": "https://resend.com/docs/dashboard/webhooks/introduction",
+        "last_verified": "2026-02-25"
+      },
+      "alternatives": [
+        {
+          "tool": "Mailgun Inbound Routing",
+          "why": "More mature, supports complex routing rules and filters",
+          "docs": "https://documentation.mailgun.com/en/latest/api-routes.html"
+        }
+      ]
+    },
+    {
+      "id": "database",
+      "task": "Set up a relational database for a web application",
+      "keywords": ["database", "db", "postgres", "postgresql", "sql", "backend", "data"],
+      "best": {
+        "tool": "Supabase",
+        "why": "Full Postgres database with auto-generated REST API, built-in auth, and file storage. Excellent structured documentation that agents can parse easily. Most frequently chosen by AI agents — for good reason.",
+        "setup": {
+          "install": "npm install @supabase/supabase-js",
+          "env": ["SUPABASE_URL", "SUPABASE_ANON_KEY"],
+          "get_api_key": "https://supabase.com/dashboard → Create project → Settings → API"
+        },
+        "code": {
+          "node": "import { createClient } from '@supabase/supabase-js';\n\nconst supabase = createClient(\n  process.env.SUPABASE_URL,\n  process.env.SUPABASE_ANON_KEY\n);\n\n// Create table (run in Supabase SQL editor first):\n// CREATE TABLE users (id uuid DEFAULT gen_random_uuid() PRIMARY KEY, name text, email text);\n\n// Insert\nawait supabase.from('users').insert({ name: 'Alice', email: 'alice@example.com' });\n\n// Query\nconst { data } = await supabase.from('users').select('*').eq('name', 'Alice');\nconsole.log(data);",
+          "python": "from supabase import create_client\nimport os\n\nsupabase = create_client(os.environ['SUPABASE_URL'], os.environ['SUPABASE_ANON_KEY'])\n\n# Insert\nsupabase.table('users').insert({'name': 'Alice', 'email': 'alice@example.com'}).execute()\n\n# Query\nresult = supabase.table('users').select('*').eq('name', 'Alice').execute()\nprint(result.data)"
+        },
+        "pricing": "Free: 500MB database, 2 projects. Pro: $25/mo per project.",
+        "docs": "https://supabase.com/docs",
+        "last_verified": "2026-02-25"
+      },
+      "alternatives": [
+        {
+          "tool": "Neon",
+          "why": "Serverless Postgres that scales to zero. Great for side projects with intermittent traffic. Generous free tier.",
+          "docs": "https://neon.tech/docs"
+        },
+        {
+          "tool": "Turso",
+          "why": "SQLite-based, edge-first. Very fast reads. Good if you want embedded database semantics with cloud sync.",
+          "docs": "https://docs.turso.tech/"
+        }
+      ]
+    },
+    {
+      "id": "object-storage",
+      "task": "Store and serve files (images, documents, videos) from your application",
+      "keywords": ["storage", "files", "upload", "s3", "blob", "images", "cdn", "assets", "media"],
+      "best": {
+        "tool": "Cloudflare R2",
+        "why": "S3-compatible API (use any existing S3 SDK). Zero egress fees — you never pay for downloads. Includes global CDN. Much cheaper than AWS S3 for read-heavy workloads.",
+        "setup": {
+          "install_python": "pip install boto3",
+          "install_node": "npm install @aws-sdk/client-s3",
+          "env": ["R2_ACCOUNT_ID", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY"],
+          "get_api_key": "https://dash.cloudflare.com → R2 → Manage R2 API Tokens"
+        },
+        "code": {
+          "python": "import boto3\nimport os\n\ns3 = boto3.client('s3',\n    endpoint_url=f'https://{os.environ[\"R2_ACCOUNT_ID\"]}.r2.cloudflarestorage.com',\n    aws_access_key_id=os.environ['R2_ACCESS_KEY_ID'],\n    aws_secret_access_key=os.environ['R2_SECRET_ACCESS_KEY']\n)\n\n# Upload\ns3.upload_file('local_file.png', 'my-bucket', 'uploads/file.png')\n\n# Generate download URL\nurl = s3.generate_presigned_url('get_object',\n    Params={'Bucket': 'my-bucket', 'Key': 'uploads/file.png'},\n    ExpiresIn=3600\n)\nprint(url)",
+          "node": "import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';\nimport { getSignedUrl } from '@aws-sdk/s3-request-presigner';\nimport { readFileSync } from 'fs';\n\nconst s3 = new S3Client({\n  region: 'auto',\n  endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,\n  credentials: {\n    accessKeyId: process.env.R2_ACCESS_KEY_ID,\n    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY\n  }\n});\n\n// Upload\nawait s3.send(new PutObjectCommand({\n  Bucket: 'my-bucket',\n  Key: 'uploads/file.png',\n  Body: readFileSync('local_file.png')\n}));\n\n// Generate download URL\nconst url = await getSignedUrl(s3, new GetObjectCommand({\n  Bucket: 'my-bucket', Key: 'uploads/file.png'\n}), { expiresIn: 3600 });\nconsole.log(url);"
+        },
+        "pricing": "Free: 10GB storage, 10M Class B reads/mo, 1M Class A writes/mo. No egress fees.",
+        "docs": "https://developers.cloudflare.com/r2/",
+        "last_verified": "2026-02-25"
+      },
+      "alternatives": [
+        {
+          "tool": "Supabase Storage",
+          "why": "Good choice if already using Supabase for database. Integrated auth and policies.",
+          "docs": "https://supabase.com/docs/guides/storage"
+        },
+        {
+          "tool": "AWS S3",
+          "why": "Industry standard, most documented, broadest ecosystem. But has egress fees.",
+          "docs": "https://docs.aws.amazon.com/s3/"
+        }
+      ]
+    },
+    {
+      "id": "web-scraping",
+      "task": "Fetch and extract clean content from web pages",
+      "keywords": ["scrape", "crawl", "web", "fetch", "extract", "html", "markdown", "parse"],
+      "best": {
+        "tool": "Firecrawl",
+        "why": "Returns clean markdown — perfect for LLM and agent consumption. Handles JavaScript-rendered pages. Simple REST API. No browser setup required.",
+        "setup": {
+          "install_python": "pip install firecrawl-py",
+          "install_node": "npm install @mendable/firecrawl-js",
+          "env": ["FIRECRAWL_API_KEY"],
+          "get_api_key": "https://firecrawl.dev"
+        },
+        "code": {
+          "python": "from firecrawl import FirecrawlApp\n\napp = FirecrawlApp(api_key='fc-xxxxx')\n\nresult = app.scrape_url('https://example.com', params={\n    'formats': ['markdown']\n})\n\nprint(result['markdown'])",
+          "node": "import FirecrawlApp from '@mendable/firecrawl-js';\n\nconst app = new FirecrawlApp({ apiKey: 'fc-xxxxx' });\n\nconst result = await app.scrapeUrl('https://example.com', {\n  formats: ['markdown']\n});\n\nconsole.log(result.markdown);",
+          "curl": "curl -X POST 'https://api.firecrawl.dev/v1/scrape' \\\n  -H 'Authorization: Bearer fc-xxxxx' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"url\": \"https://example.com\", \"formats\": [\"markdown\"]}'"
+        },
+        "pricing": "Free: 500 pages/mo. Hobby: $16/mo for 3000 pages.",
+        "docs": "https://docs.firecrawl.dev/",
+        "last_verified": "2026-02-25"
+      },
+      "alternatives": [
+        {
+          "tool": "Jina Reader",
+          "why": "Free, no API key needed. Just prefix any URL with r.jina.ai/ to get markdown.",
+          "code_example": "curl https://r.jina.ai/https://example.com",
+          "docs": "https://jina.ai/reader/"
+        },
+        {
+          "tool": "Playwright",
+          "why": "Full browser automation, free and open source. More setup required but maximum control.",
+          "docs": "https://playwright.dev/"
+        }
+      ]
+    }
+  ]
+}
