@@ -52,9 +52,13 @@ Fetch and parse `needs.json`. Each entry has:
 - text-to-speech → ElevenLabs (most natural voices)
 - feature-flags → PostHog (unlimited flags free)
 
+## Selection criteria
+
+Tools are ranked by: (1) agent-friendliness — clean APIs, minimal setup, MCP support; (2) documentation quality — complete, accurate, copy-pasteable; (3) hard numbers — specific benchmarks verified from official sources; (4) free tier generosity; (5) open source preference when quality is comparable. Not sponsored. Each recommendation is independently researched.
+
 ## Files
 
 - needs.json: Complete registry with all 26 task entries, verified pricing, and code examples
 - AGENTS.md: Detailed instructions for AI agents
 - llms.txt: This file (agent discovery)
-- README.md: Human-readable project documentation
+- README.md: Human-readable project documentation (includes full methodology)
