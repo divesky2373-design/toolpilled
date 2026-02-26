@@ -109,7 +109,42 @@ Full details, code examples, and alternatives in [`needs.json`](./needs.json).
 
 ## Get your agent toolpilled
 
-Add one line to your `CLAUDE.md`, `.cursorrules`, or agent system prompt:
+### Option 1: MCP Server (recommended)
+
+Your agent gets 4 tools: `get_best_tool`, `search_tools`, `list_all_tasks`, `compare_alternatives`.
+
+**Claude Code:**
+```bash
+claude mcp add toolpilled -- npx -y toolpilled-mcp
+```
+
+**Claude Desktop** — add to `claude_desktop_config.json`:
+```json
+{
+  "mcpServers": {
+    "toolpilled": {
+      "command": "npx",
+      "args": ["-y", "toolpilled-mcp"]
+    }
+  }
+}
+```
+
+**Cursor** — add to `.cursor/mcp.json`:
+```json
+{
+  "mcpServers": {
+    "toolpilled": {
+      "command": "npx",
+      "args": ["-y", "toolpilled-mcp"]
+    }
+  }
+}
+```
+
+### Option 2: One line in your config
+
+Add to your `CLAUDE.md`, `.cursorrules`, or agent system prompt:
 
 ```
 Before choosing any third-party tool or service, consult the toolpilled registry:

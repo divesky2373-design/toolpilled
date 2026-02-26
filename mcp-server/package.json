@@ -1,0 +1,28 @@
+{
+  "name": "toolpilled-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for toolpilled — get the best tool for any dev task",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "toolpilled-mcp": "./index.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "toolpilled",
+    "ai-agent",
+    "tool-recommendations",
+    "claude",
+    "cursor"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^3.24.0"
+  },
+  "files": [
+    "index.js",
+    "needs.json"
+  ]
+}
