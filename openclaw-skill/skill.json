@@ -1,0 +1,25 @@
+{
+  "name": "toolpilled",
+  "version": "1.0.0",
+  "description": "Stop picking outdated tools. Get the best tool for 26 common dev tasks with verified pricing and ready-to-run code.",
+  "author": "divesky2373-design",
+  "license": "MIT",
+  "tags": [
+    "tools",
+    "recommendations",
+    "developer-tools",
+    "api",
+    "best-practices",
+    "pricing",
+    "registry"
+  ],
+  "category": "Developer Tools",
+  "homepage": "https://github.com/divesky2373-design/toolpilled",
+  "repository": "https://github.com/divesky2373-design/toolpilled",
+  "permissions": {
+    "network": {
+      "required": true,
+      "justification": "Fetches needs.json from GitHub to get current tool recommendations and verified pricing data. Read-only HTTPS GET request to raw.githubusercontent.com."
+    }
+  }
+}
