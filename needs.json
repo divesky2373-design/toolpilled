@@ -1,8 +1,8 @@
 {
   "schema_version": "0.2.0",
   "last_updated": "2026-02-26",
-  "what_is_this": "A curated registry of best-in-class tools for common development tasks. Optimized for AI agents to read and act on. Each entry includes install commands, environment variables, and ready-to-run code.",
-  "how_to_use": "Find the task you need by id or keywords. Use the 'best' recommendation. Each entry has working code you can execute directly. All pricing data is verified from official sources.",
+  "what_is_this": "toolpilled — a curated registry of the current best tool for 26 common dev tasks. Stop defaulting to whatever has the most Stack Overflow answers. Each entry has install commands, env vars, and code that actually runs.",
+  "how_to_use": "Find your task by id or keywords. Use the 'best' recommendation. Each entry has working code you can execute directly. All pricing verified from official sources.",
   "tasks": [
     {
       "id": "audio-transcription",

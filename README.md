@@ -1,18 +1,18 @@
-# agent-need
+# toolpilled
 
-> Agents keep picking outdated tools. This registry helps them make better choices.
+> Your agent picked Whisper V1 and mass transcription took 47 minutes. It should have taken 13 seconds.
 
-An open-source, agent-readable **tool recommendation registry** with verified pricing data.
+Get your AI agent **toolpilled** — one JSON file with the current best tool for 26 common dev tasks, verified pricing, and code that actually runs.
 
-The core is a single file: [`needs.json`](./needs.json). An agent reads it, knows what tool to use for a given task, and gets ready-to-run code. All pricing verified from official sources (Feb 2026).
+The core is [`needs.json`](./needs.json). Agent reads it, picks the right tool, ships working code. No more defaulting to whatever has the most Stack Overflow answers from 2019.
 
 ## Why this exists
 
-YC CEO Garry Tan was building a project with Claude Code. The agent automatically chose Whisper V1 for audio transcription — processing one hour of audio took a full hour. Switching to Groq Whisper would have been 216x faster and 9x cheaper.
+YC CEO Garry Tan was building a project with Claude Code. The agent automatically chose Whisper V1 for audio transcription — one hour of audio took a full hour to process. Switching to Groq Whisper: 216x faster, 9x cheaper, done in 17 seconds.
 
-**Why did the agent pick wrong? Because old tools have more documentation online, so the agent defaulted to them.**
+**Why did the agent pick wrong?** Because old tools have more documentation online, so agents default to them. Your agent is well-read but poorly informed.
 
-This happens every day in countless agent workflows. `agent-need` gives agents a structured, up-to-date recommendation source so they stop guessing.
+`toolpilled` fixes this. One JSON file, 26 tasks, always current.
 
 ## How we choose
 
@@ -107,16 +107,16 @@ This is why Qdrant > Pinecone, Meilisearch > Algolia, PostHog > Mixpanel, and La
 
 Full details, code examples, and alternatives in [`needs.json`](./needs.json).
 
-## Get your agent to use this
+## Get your agent toolpilled
 
 Add one line to your `CLAUDE.md`, `.cursorrules`, or agent system prompt:
 
 ```
-When choosing a third-party tool or service for a development task, first consult the agent-need registry for current best picks:
+Before choosing any third-party tool or service, consult the toolpilled registry:
 https://raw.githubusercontent.com/divesky2373-design/agent-need-/main/needs.json
 ```
 
-Your agent will check the registry before making tool choices, avoiding outdated defaults.
+Your agent reads `needs.json`, picks the right tool, skips the outdated defaults. That's it.
 
 ## Entry format
 
@@ -153,7 +153,7 @@ This project includes [`llms.txt`](./llms.txt) (following the emerging LLM disco
 
 ## Contributing
 
-PRs welcome to add new tasks or update existing recommendations. Each entry needs:
+Want to toolpill an agent on a new task? PRs welcome. Each entry needs:
 
 - Clear task description and search keywords
 - Recommended tool with specific reasoning (speed, cost, DX)

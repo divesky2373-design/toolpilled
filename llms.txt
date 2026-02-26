@@ -1,14 +1,14 @@
-# agent-need
+# toolpilled
 
-> An open-source, agent-readable registry of recommended tools for common development tasks. All pricing verified from official sources.
+> Your agent is well-read but poorly informed. Get it toolpilled.
 
 ## Problem
 
-AI agents often choose outdated or suboptimal tools because older tools have more documentation online. For example, an agent might choose Whisper V1 (processes audio at 1:1 real-time speed) when Groq Whisper is 216x faster and 9x cheaper.
+AI agents default to outdated tools because older tools have more documentation online. An agent picks Whisper V1 (1:1 real-time speed) when Groq Whisper is 216x faster and 9x cheaper. This happens across every tool category, every day.
 
 ## Solution
 
-A single JSON file (`needs.json`) that maps 26 common tasks to the current best tool, with verified pricing and ready-to-run code. Agents read it before making tool choices.
+One JSON file (`needs.json`). 26 tasks. Current best tool for each. Verified pricing. Code that runs. Agent reads it before making tool choices — problem solved.
 
 ## How to use
 
@@ -61,4 +61,4 @@ Tools are ranked by: (1) agent-friendliness — clean APIs, minimal setup, MCP s
 - needs.json: Complete registry with all 26 task entries, verified pricing, and code examples
 - AGENTS.md: Detailed instructions for AI agents
 - llms.txt: This file (agent discovery)
-- README.md: Human-readable project documentation (includes full methodology)
+- README.md: Human-readable documentation (includes full selection methodology)
